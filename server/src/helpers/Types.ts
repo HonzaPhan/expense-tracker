@@ -4,3 +4,7 @@ export interface ICorsOptions {
     credentials: boolean;
     methods: string;
 }
+
+export interface IDbConfig {
+    mongoURI?: string;
+}
