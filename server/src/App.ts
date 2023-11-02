@@ -18,7 +18,7 @@ class App {
 		this._port = process.env.PORT || 3000;
 		this._routesManager = new RouterManager();
 		this._corsOptions = {
-			origin: 'http://localhost:3000',
+			origin: 'http://localhost:5173/',
 			optionsSuccessStatus: 200,
 			credentials: true,
 			methods: 'GET, PUT, POST',

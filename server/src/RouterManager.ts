@@ -1,6 +1,7 @@
 import AuthMiddleware from "./middlewares/AuthMiddleware";
 import { Request, Response } from "express";
 import { Router } from "express";
+import { _getUser } from "./controllers/user/controller";
 
 export default class RouterManager {
     private _userRouter: Router;
@@ -21,9 +22,7 @@ export default class RouterManager {
     }
 
     private _initializeRoutes() {
-        this._userRouter.get('/', (req: Request, res: Response) => {
-            res.send('User Route');
-        })
+        this._userRouter.post('/auth', _getUser)
 
         this._publicRouter.use('/user', this._userRouter)
     }
