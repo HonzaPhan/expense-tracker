@@ -1,5 +1,4 @@
 /* App.ts */
-
 import { Document } from "mongoose";
 
 export interface ICorsOptions {

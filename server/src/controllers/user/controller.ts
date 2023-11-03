@@ -1,16 +1,17 @@
 import { Request, Response } from 'express';
 import asyncHandler from 'express-async-handler';
 import UserModel from './model';
+import GenerateToken from '../../utils/jwt';
 
 class UserController {
-	static _userModel: UserModel;
+	static _userModel: UserModel = new UserModel();
+	static _generateToken: GenerateToken = new GenerateToken();
 
 	// @desc Auth user/set token
 	// @route POST /api/user/auth
 	// @access Public
 	public static _getUser = asyncHandler(async (req: Request, res: Response) => {
 		const { email, password } = req.body;
-		res.status(200).json({ message: 'Get user' });
 	});
 
 	// @desc Register user
@@ -32,7 +33,9 @@ class UserController {
 			password,
 		});
 
-		if(user) {
+		if (user) {
+			this._generateToken.generateToken(user._id, res);
+
 			res.status(201).json({
 				_id: user._id,
 				username: user.username,
@@ -43,8 +46,6 @@ class UserController {
 			res.status(400);
 			throw new Error('Neplatná uživatelská data');
 		}
-
-		res.status(200).json({ message: 'Register User' });
 	});
 
 	// @desc Logout user

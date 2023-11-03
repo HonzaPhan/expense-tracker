@@ -8,20 +8,19 @@ class ErrorMiddleware {
 	}
 
 	static _handleError(error: HttpError, req: Request, res: Response, next: NextFunction) {
-		let statusCode = res.statusCode === 200 ? 500 : res.statusCode;
-		const { message, name, kind, stack } = error;
-
-		if (name === 'CastError' && kind === 'ObjectId') {
+		if (error.name === 'CastError' && error.kind === 'ObjectId') {
 			res.status(400).json({
 				status: 400,
-				message: 'Invalid ID',
+				message: 'Neplatný ID',
 			});
 		} else {
-			res.status(statusCode).json({
+			const statusCode = res.statusCode === 200 ? 500 : res.statusCode;
+			const response = {
 				status: statusCode,
-				message: message || 'Internal Server Error',
-				stack: process.env.NODE_ENV === 'production' ? null : stack,
-			});
+				message: error.message || 'Internal Server Error',
+				stack: process.env.NODE_ENV === 'production' ? null : error.stack,
+			};
+			res.status(statusCode).json(response);
 		}
 	}
 }

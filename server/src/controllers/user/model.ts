@@ -1,5 +1,5 @@
 import mongoose, { Model } from 'mongoose';
-import brypt from 'bcryptjs';
+import bcrypt from 'bcryptjs';
 import { IUser } from '../../helpers/Types';
 
 export default class UserModel {
@@ -29,13 +29,20 @@ export default class UserModel {
 								);
 							return emailRegex;
 						},
-						message: 'Invalid email format',
+						message: 'Neplatný email!',
 					},
 				},
 				password: {
 					type: String,
 					required: true,
 					trim: true,
+					validate: {
+						validator: (value: string) => {
+							const passwordRegex = /^[A-Za-z0-9.;@!*#/-]*$/;
+							return passwordRegex.test(value);
+						},
+						message: 'Heslo může obsahovat pouze písmena, číslice a speciální znaky: .;@!*#/-',
+					},
 					minlength: 8,
 				},
 			},
@@ -45,15 +52,15 @@ export default class UserModel {
 		);
 
 		this._userSchema.pre<IUser>('save', async function (next) {
-			if(!this.isModified('password')) {
+			if (!this.isModified('password')) {
 				next();
 			}
 
-			const salt = await brypt.genSalt(10);
-			this.password = await brypt.hash(this.password, salt);
+			const salt = await bcrypt.genSalt(10);
+			this.password = await bcrypt.hash(this.password, salt);
 
 			next();
-		})
+		});
 
 		this._UserModel = mongoose.model<IUser>('User', this._userSchema);
 	}
