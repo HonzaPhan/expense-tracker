@@ -6,6 +6,7 @@ import {
 	_updateUserProfile,
 	_getUserProfile,
 } from './controllers/user/controller';
+import AuthMiddleware from './middlewares/AuthMiddleware';
 
 export default class RouterManager {
 	private _userRouter: Router;
@@ -30,8 +31,8 @@ export default class RouterManager {
 			.post('/auth', _getUser)
 			.post('/register', _registerUser)
 			.post('/logout', _logoutUser)
-			.get('/profile', _getUserProfile)
-			.put('/profile', _updateUserProfile);
+			.get('/profile', AuthMiddleware._protect, _getUserProfile)
+			.put('/profile', AuthMiddleware._protect, _updateUserProfile);
 
 		this._publicRouter.use('/user', this._userRouter);
 	}

@@ -45,10 +45,10 @@ class App {
 
 	private _initializeConfig() {
 		this._app.use(cors(this._corsOptions));
+		this._app.use(cookieParser());
 		this._app.use(express.static('public'));
 		this._app.use(express.urlencoded({ extended: true }));
 		this._app.use(express.json());
-		this._app.use(cookieParser());
 	}
 }
 

@@ -4,7 +4,6 @@ import UserModel from './model';
 import GenerateToken from '../../utils/jwt';
 
 class UserController {
-	static _userModel: UserModel = new UserModel();
 	static _generateToken: GenerateToken = new GenerateToken();
 
 	// @desc Auth user/set token
@@ -13,7 +12,7 @@ class UserController {
 	public static _getUser = asyncHandler(async (req: Request, res: Response) => {
 		const { email, password } = req.body;
 
-		const user = await this._userModel.GetUserModel.findOne({ email });
+		const user = await UserModel.GetUserModel.findOne({ email });
 
 		if (user && (await user.matchPassword(password))) {
 			this._generateToken.generateToken(user._id, res);
@@ -36,14 +35,14 @@ class UserController {
 	public static _registerUser = asyncHandler(async (req: Request, res: Response) => {
 		const { username, email, password } = req.body;
 
-		const userExists = await this._userModel.GetUserModel.findOne({ email });
+		const userExists = await UserModel.GetUserModel.findOne({ email });
 
 		if (userExists) {
 			res.status(400);
 			throw new Error('Uživatel již existuje!');
 		}
 
-		const user = await this._userModel.GetUserModel.create({
+		const user = await UserModel.GetUserModel.create({
 			username,
 			email,
 			password,

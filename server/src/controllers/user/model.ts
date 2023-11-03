@@ -1,13 +1,12 @@
-import mongoose, { Model } from 'mongoose';
+import mongoose, { Model, Schema } from 'mongoose';
 import bcrypt from 'bcryptjs';
 import { IUser } from '../../helpers/Types';
 
-export default class UserModel {
-	private _userSchema: mongoose.Schema;
+class UserModel {
 	private _UserModel: Model<IUser>;
 
 	constructor() {
-		this._userSchema = new mongoose.Schema<IUser>(
+		const userSchema = new Schema<IUser>(
 			{
 				username: {
 					type: String,
@@ -51,7 +50,7 @@ export default class UserModel {
 			},
 		);
 
-		this._userSchema.pre<IUser>('save', async function (next) {
+		userSchema.pre<IUser>('save', async function (next) {
 			if (!this.isModified('password')) {
 				next();
 			}
@@ -62,18 +61,20 @@ export default class UserModel {
 			next();
 		});
 
-		this._userSchema.methods.matchPassword = async function (enteredPassword: string) {
+		userSchema.methods.matchPassword = async function (enteredPassword: string) {
 			return await bcrypt.compare(enteredPassword, this.password);
 		};
 
-		this._UserModel = mongoose.model<IUser>('User', this._userSchema);
+		this._UserModel = mongoose.model<IUser>('User', userSchema);
 	}
 
-	public get GetUserSchema() {
-		return this._userSchema;
+	public get GetUserSchema(): Schema<IUser> {
+		return this._UserModel.schema;
 	}
 
-	public get GetUserModel() {
+	public get GetUserModel(): Model<IUser> {
 		return this._UserModel;
 	}
 }
+
+export default new UserModel();
