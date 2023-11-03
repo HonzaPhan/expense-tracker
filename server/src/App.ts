@@ -4,6 +4,7 @@ import cors from 'cors';
 import RouterManager from './RouterManager';
 import ErrorMiddleware from './middlewares/ErrorMiddleware';
 import DBConnect from './config/globals';
+import cookieParser from 'cookie-parser';
 import { ICorsOptions } from './helpers/Types';
 
 class App {
@@ -47,6 +48,7 @@ class App {
 		this._app.use(express.static('public'));
 		this._app.use(express.urlencoded({ extended: true }));
 		this._app.use(express.json());
+		this._app.use(cookieParser());
 	}
 }
 
