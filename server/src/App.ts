@@ -2,10 +2,9 @@ import express, { Express } from 'express';
 import dotenv from 'dotenv';
 import cors from 'cors';
 import RouterManager from './RouterManager';
-import bodyParser from 'body-parser';
-import { ICorsOptions } from './helpers/Types';
 import ErrorMiddleware from './middlewares/ErrorMiddleware';
 import DBConnect from './config/globals';
+import { ICorsOptions } from './helpers/Types';
 
 class App {
 	public _app: Express;
@@ -48,7 +47,6 @@ class App {
 		this._app.use(cors(this._corsOptions));
 		this._app.use(express.urlencoded({ extended: true }));
 		this._app.use(express.static('public'));
-		this._app.use(bodyParser.json());
 	}
 }
 
