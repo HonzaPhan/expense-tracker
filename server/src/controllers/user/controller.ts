@@ -12,6 +12,22 @@ class UserController {
 	// @access Public
 	public static _getUser = asyncHandler(async (req: Request, res: Response) => {
 		const { email, password } = req.body;
+
+		const user = await this._userModel.GetUserModel.findOne({ email });
+
+		if (user && (await user.matchPassword(password))) {
+			this._generateToken.generateToken(user._id, res);
+
+			res.status(201).json({
+				_id: user._id,
+				username: user.username,
+				email: user.email,
+				password: user.password,
+			});
+		} else {
+			res.status(400);
+			throw new Error('Neplatný email nebo heslo!');
+		}
 	});
 
 	// @desc Register user
@@ -52,7 +68,12 @@ class UserController {
 	// @route POST /api/user/logout
 	// @access Public
 	public static _logoutUser = asyncHandler(async (req: Request, res: Response) => {
-		res.status(200).json({ message: 'Logout User' });
+		res.cookie('jwt', '', {
+			httpOnly: true,
+			expires: new Date(0),
+		});
+
+		res.status(200).json({ message: 'Odhlášení bylo úspěšně' });
 	});
 
 	// @desc Get user profile

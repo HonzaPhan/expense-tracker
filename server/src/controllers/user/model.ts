@@ -62,6 +62,10 @@ export default class UserModel {
 			next();
 		});
 
+		this._userSchema.methods.matchPassword = async function (enteredPassword: string) {
+			return await bcrypt.compare(enteredPassword, this.password);
+		};
+
 		this._UserModel = mongoose.model<IUser>('User', this._userSchema);
 	}
 
