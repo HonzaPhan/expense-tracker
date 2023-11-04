@@ -15,7 +15,7 @@ class UserController {
 		const user = await UserModel.GetUserModel.findOne({ email });
 
 		if (user && (await user.matchPassword(password))) {
-			this._generateToken.generateToken(user._id, res);
+			this._generateToken.generateToken(res, user._id);
 
 			res.status(201).json({
 				_id: user._id,
@@ -49,7 +49,7 @@ class UserController {
 		});
 
 		if (user) {
-			this._generateToken.generateToken(user._id, res);
+			this._generateToken.generateToken(res, user._id);
 
 			res.status(201).json({
 				_id: user._id,

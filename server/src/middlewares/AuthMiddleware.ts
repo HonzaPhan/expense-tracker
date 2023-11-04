@@ -17,9 +17,6 @@ export default class AuthMiddleware {
 			const decoded = jwt.verify(token, process.env.JWT_SECRET!) as JwtPayload;
 			const user: IUser = await UserModel.GetUserModel.findById(decoded.id).select('-password');
 
-            console.log(user, 'user');
-            console.log(req.cookies.jwt, 'req.cookies.jwt');
-
 			if (!user) {
 				res.status(401);
 				return next(new Error('Uživatel neexistuje!'));
