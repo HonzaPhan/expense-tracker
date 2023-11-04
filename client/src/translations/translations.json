@@ -1,0 +1,24 @@
+{
+	"en": {
+		"alreadyHaveAccount": "Already have an account? Sign In",
+		"signUp": "Sign Up",
+		"signIn": "Sign In",
+		"forgotPassword": "Forgot password?",
+		"dontHaveAccount": "Don't have an account? Sign Up",
+		"rememberMe": "Remember me",
+		"username": "Username",
+		"password": "Password",
+		"email": "Email Address"
+	},
+	"cz": {
+		"alreadyHaveAccount": "Máte již účet? Přihlásit se",
+		"signUp": "Registrovat se",
+		"signIn": "Přihlásit se",
+		"forgotPassword": "Zapomněli jste heslo?",
+		"dontHaveAccount": "Nemáte účet? Zaregistrovat se",
+		"rememberMe": "Zapamatovat si mě",
+		"username": "Uživatelské jméno",
+		"password": "Heslo",
+		"email": "Emailová adresa"
+	}
+}

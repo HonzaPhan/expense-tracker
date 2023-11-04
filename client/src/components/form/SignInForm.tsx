@@ -1,4 +1,5 @@
-import { Button, Grid, Link, Box, TextField, FormControlLabel, Checkbox } from '@mui/material';
+import { Button, Box, TextField, FormControlLabel, Checkbox } from '@mui/material';
+import translations from '../../translations/translations.json';
 
 const SignInForm = () => {
 	const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -17,7 +18,7 @@ const SignInForm = () => {
 				required
 				fullWidth
 				id="email"
-				label="Email Address"
+				label={translations.cz.email}
 				name="email"
 				autoComplete="email"
 				autoFocus
@@ -28,28 +29,16 @@ const SignInForm = () => {
 				required
 				fullWidth
 				name="password"
-				label="Password"
+				label={translations.cz.password}
 				type="password"
 				id="password"
 				autoComplete="current-password"
 				sx={{ color: 'inherit' }}
 			/>
-			<FormControlLabel control={<Checkbox value="remember" sx={{ color: 'inherit' }} />} label="Remember me" />
+			<FormControlLabel control={<Checkbox value="remember" sx={{ color: 'inherit' }} />} label={translations.cz.rememberMe} />
 			<Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
-				Sign In
+				{translations.cz.signIn}
 			</Button>
-			<Grid container>
-				<Grid item xs>
-					<Link href="#" variant="body2">
-						Forgot password?
-					</Link>
-				</Grid>
-				<Grid item>
-					<Link href="#" variant="body2">
-						{"Don't have an account? Sign Up"}
-					</Link>
-				</Grid>
-			</Grid>
 		</Box>
 	);
 };

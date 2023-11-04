@@ -1,6 +1,8 @@
-import { Avatar, Grid, Typography, Box, Paper } from '@mui/material';
-import { Copyright, LockOutlined } from '@mui/icons-material';
+import { Avatar, Grid, Typography, Box, Paper, Link } from '@mui/material';
+import { LockOutlined } from '@mui/icons-material';
 import SignInForm from '../components/form/SignInForm';
+import Copyright from '../components/copyright/Copyright';
+import translations from '../translations/translations.json';
 
 const SignInPage = () => {
 	return (
@@ -35,9 +37,21 @@ const SignInPage = () => {
 						<LockOutlined />
 					</Avatar>
 					<Typography component="h1" variant="h5">
-						Sign in
+						{translations.cz.signIn}
 					</Typography>
 					<SignInForm />
+					<Grid container direction="column" justifyContent="center" alignItems="center" spacing={2} marginTop={1}>
+						<Grid item xs>
+							<Link href="#" variant="body2">
+								{translations.cz.forgotPassword}
+							</Link>
+						</Grid>
+						<Grid item>
+							<Link href="/sign-up" variant="body2">
+								{translations.cz.dontHaveAccount}
+							</Link>
+						</Grid>
+					</Grid>
 					<Copyright />
 				</Box>
 			</Grid>

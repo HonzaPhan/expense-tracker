@@ -21,15 +21,6 @@ const LightTheme = createTheme({
 			color: 'inherit',
 		},
 	},
-	components: {
-		MuiTextField: {
-			styleOverrides: {
-				root: {
-					backgroundColor: 'inherit',
-				},
-			},
-		},
-	},
 });
 
 const DarkTheme = createTheme({
@@ -51,15 +42,6 @@ const DarkTheme = createTheme({
 	typography: {
 		allVariants: {
 			color: 'inherit',
-		},
-	},
-	components: {
-		MuiTextField: {
-			styleOverrides: {
-				root: {
-					backgroundColor: 'inherit',
-				},
-			},
 		},
 	},
 });
