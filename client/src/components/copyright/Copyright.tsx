@@ -1,4 +1,4 @@
-import { Link, Typography } from "@mui/material";
+import { Link, Typography } from '@mui/material';
 
 const Copyright = () => {
 	return (
@@ -11,6 +11,6 @@ const Copyright = () => {
 			{'.'}
 		</Typography>
 	);
-}
+};
 
-export default Copyright
+export default Copyright;

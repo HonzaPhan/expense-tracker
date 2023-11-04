@@ -3,8 +3,8 @@ import { Copyright, LockOutlined } from '@mui/icons-material';
 import SignInForm from '../components/form/SignInForm';
 
 const SignInPage = () => {
-  return (
-    <Grid container component="main" sx={{ height: '100vh' }}>
+	return (
+		<Grid container component="main" sx={{ height: '100vh' }}>
 			<Grid
 				item
 				xs={false}
@@ -42,7 +42,7 @@ const SignInPage = () => {
 				</Box>
 			</Grid>
 		</Grid>
-  )
-}
+	);
+};
 
-export default SignInPage
+export default SignInPage;
