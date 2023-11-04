@@ -101,7 +101,29 @@ class UserController {
 	// @route PUT /api/user/profile
 	// @access Private
 	public static _updateUserProfile = asyncHandler(async (req: Request, res: Response) => {
-		res.status(200).json({ message: 'Update User Profile' });
+		const user: IUser = await UserController.userModel.findById(req.user?._id).select('-password');
+
+		if(user) {
+			user.username = req.body.username || user.username;
+			user.email = req.body.email || user.email;
+
+			if(req.body.password) {
+				user.password = req.body.password;
+			}
+
+			const updatedUser = await user.save();
+
+			this._generateToken.generateToken(res, updatedUser._id);
+
+			res.status(200).json({
+				_id: updatedUser._id,
+				username: updatedUser.username,
+				email: updatedUser.email,
+			});
+		} else {
+			res.status(404);
+			throw new Error('Uživatel nebyl nalezen');
+		}
 	});
 }
 
