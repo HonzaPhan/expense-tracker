@@ -1,9 +1,11 @@
-import { Request, Response } from 'express';
+import { CookieOptions, Request, Response } from 'express';
 import asyncHandler from 'express-async-handler';
 import UserModel from './model';
 import GenerateToken from '../../utils/jwt';
+import { IUser } from '../../helpers/Types';
 
 class UserController {
+	private static userModel = UserModel.GetUserModel;
 	static _generateToken: GenerateToken = new GenerateToken();
 
 	// @desc Auth user/set token
@@ -12,7 +14,7 @@ class UserController {
 	public static _getUser = asyncHandler(async (req: Request, res: Response) => {
 		const { email, password } = req.body;
 
-		const user = await UserModel.GetUserModel.findOne({ email });
+		const user = await UserController.userModel.findOne({ email });
 
 		if (user && (await user.matchPassword(password))) {
 			this._generateToken.generateToken(res, user._id);
@@ -35,14 +37,14 @@ class UserController {
 	public static _registerUser = asyncHandler(async (req: Request, res: Response) => {
 		const { username, email, password } = req.body;
 
-		const userExists = await UserModel.GetUserModel.findOne({ email });
+		const userExists = await UserController.userModel.findOne({ email });
 
 		if (userExists) {
 			res.status(400);
 			throw new Error('Uživatel již existuje!');
 		}
 
-		const user = await UserModel.GetUserModel.create({
+		const user = await UserController.userModel.create({
 			username,
 			email,
 			password,
@@ -67,10 +69,12 @@ class UserController {
 	// @route POST /api/user/logout
 	// @access Public
 	public static _logoutUser = asyncHandler(async (req: Request, res: Response) => {
-		res.cookie('jwt', '', {
+		const cookieOptions: CookieOptions = {
 			httpOnly: true,
 			expires: new Date(0),
-		});
+		};
+
+		res.cookie('jwt', '', cookieOptions);
 
 		res.status(200).json({ message: 'Odhlášení bylo úspěšně' });
 	});
@@ -79,7 +83,18 @@ class UserController {
 	// @route GET /api/user/profile
 	// @access Private
 	public static _getUserProfile = asyncHandler(async (req: Request, res: Response) => {
-		res.status(200).json({ message: 'Get User Profile' });
+		const user = {
+			_id: (req.user as IUser)._id,
+			username: (req.user as IUser).username,
+			email: (req.user as IUser).email,
+		};
+
+		if (!user._id) {
+			res.status(401);
+			throw new Error('Nepřihlášený uživatel');
+		}
+		
+		res.status(200).json(user);
 	});
 
 	// @desc Update user profile

@@ -1,22 +1,30 @@
 /* App.ts */
-import { Document } from "mongoose";
+import { Document } from 'mongoose';
 
 export interface ICorsOptions {
-    origin: string;
-    optionsSuccessStatus: number;
-    credentials: boolean;
-    methods: string;
+	origin: string;
+	optionsSuccessStatus: number;
+	credentials: boolean;
+	methods: string;
 }
 
 /* Globals.ts */
 export interface IDbConfig {
-    mongoURI?: string;
+	mongoURI?: string;
 }
 
 /* User Model */
 export interface IUser extends Document {
-    username: string;
-    email: string;
-    password: string;
-    matchPassword(enteredPassword: string): Promise<boolean>;
+	username: string;
+	email: string;
+	password: string;
+	matchPassword(enteredPassword: string): Promise<boolean>;
+}
+
+declare global {
+	namespace Express {
+		interface Request {
+			user?: IUser;
+		}
+	}
 }
